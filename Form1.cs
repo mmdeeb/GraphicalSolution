@@ -37,72 +37,10 @@ namespace WindowsFormsApp2
             
 
             initFieldOnChart();
-
-            this.KeyUp += new KeyEventHandler(Form1_KeyUp);
             Add(new Constraint(0, 1, true, 0));
             Add(new Constraint(1, 0, true, 0));
         }
-        void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-
-            double addedValue = 5;
-            double differenceX = currentXMax - currentXMin;
-            double differenceY = currentYMax - currentYMin;
-            if ((differenceX > 10) && (differenceX > 10))
-            {
-                addedValue = 5;
-            }
-            else if ((differenceX > 5) && (differenceX > 5))
-            {
-                addedValue = 1;
-            }
-            else
-            {
-                addedValue = 0.1;
-            }
-
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                    currentYMax += addedValue;
-                    currentYMin += addedValue;
-                    setScale();
-                    break;
-                case Keys.Down:
-                    currentYMax += -addedValue;
-                    currentYMin += -addedValue;
-                    setScale();
-                    break;
-                case Keys.Left:
-                    currentXMax += -addedValue;
-                    currentXMin += -addedValue;
-                    setScale();
-                    break;
-                case Keys.Right:
-                    currentXMax += addedValue;
-                    currentXMin += addedValue;
-                    setScale();
-                    break;
-                case Keys.Add:
-                    if ((currentXMax - addedValue > currentXMin + addedValue) && currentYMax - addedValue > currentYMin - addedValue)
-                    {
-                        currentXMax += -addedValue;
-                        currentXMin += addedValue;
-                        currentYMax += -addedValue;
-                        currentYMin += addedValue;
-                        setScale();
-                    }
-                    break;
-                case Keys.Subtract:
-                    currentXMax += addedValue;
-                    currentXMin += -addedValue;
-                    currentYMax += addedValue;
-                    currentYMin += -addedValue;
-                    setScale();
-                    break;
-            }
-        }
-
+       
         private int rowIndex = 0;
         private void DataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -135,6 +73,10 @@ namespace WindowsFormsApp2
                 target.calcSolutionArea(points, constraints);
                 dataGridView2.Rows.Add(target.ToString());
                 dataGridView2.ClearSelection();
+                dataGridView2.Rows[0].Cells[0].Style.BackColor = Color.AliceBlue;
+                if (target.HasSolution) {
+                    drowActivePoint(target.maxValue().activePointAtMaxValue.X1, target.maxValue().activePointAtMaxValue.X2);
+                }
                 //drawArea(target);
                
 
@@ -149,6 +91,28 @@ namespace WindowsFormsApp2
 
 
         }
+
+        private void drowActivePoint(double x1, double x2)
+        {
+            var series = new System.Windows.Forms.DataVisualization.Charting.Series
+            {
+                Name =$"MaxValue at point ({x1},{x2})",
+                IsVisibleInLegend = true,
+                ChartType = SeriesChartType.Point
+
+            };
+            series.BorderColor =Color.Red;
+            series.BorderWidth =9;
+            series.MarkerSize = 10;
+
+            this.chart1.Series.Add(series);
+            chart1.Series["Field"].Points.Clear();
+            
+            series.Points.AddXY(x1+0.01 ,x2 + 0.01);
+             
+
+        }
+
         void initFieldOnChart()
         {
             var fieldSeries = new System.Windows.Forms.DataVisualization.Charting.Series
