@@ -75,7 +75,7 @@ namespace WindowsFormsApp2
                 dataGridView2.ClearSelection();
                 dataGridView2.Rows[0].Cells[0].Style.BackColor = Color.AliceBlue;
                 if (target.HasSolution) {
-                    drowActivePoint(target.maxValue().activePointAtMaxValue.X1, target.maxValue().activePointAtMaxValue.X2);
+                    drowActivePoint(target.activePoints);
                 }
                 //drawArea(target);
                
@@ -92,11 +92,11 @@ namespace WindowsFormsApp2
 
         }
 
-        private void drowActivePoint(double x1, double x2)
+        private void drowActivePoint(List<Point> activePoints)
         {
             var series = new System.Windows.Forms.DataVisualization.Charting.Series
             {
-                Name =$"MaxValue at point ({x1},{x2})",
+                Name =$"Active Points",
                 IsVisibleInLegend = true,
                 ChartType = SeriesChartType.Point
 
@@ -107,8 +107,8 @@ namespace WindowsFormsApp2
 
             this.chart1.Series.Add(series);
             chart1.Series["Field"].Points.Clear();
-            
-            series.Points.AddXY(x1+0.01 ,x2 + 0.01);
+            foreach(Point point in activePoints)
+               series.Points.AddXY(point.X1+0.01 ,point.X2 + 0.01);
              
 
         }
