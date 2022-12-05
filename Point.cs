@@ -30,7 +30,7 @@ namespace WindowsFormsApp2
         {
             List<Point> points = new List<Point>();
             int i = 1;
-            foreach (Constraint constraint1 in constraints.Skip(1))
+            foreach (Constraint constraint1 in constraints.SkipLast(1))
             {
 
                 foreach (Constraint constraint2 in constraints.Skip(i))
