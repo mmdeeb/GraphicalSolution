@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MIConvexHull;
 
 namespace WindowsFormsApp2
 {
@@ -10,7 +11,7 @@ namespace WindowsFormsApp2
     {
         public double X1, X2, Z;
         public bool IsMax,HasSolution = true;
-        public List<Point> activePoints = new List<Point>();
+        public static List<Point> activePoints = new List<Point>();
         public Target(double X1, double X2, bool IsMax)
         {
             this.X1 = X1;
@@ -41,8 +42,11 @@ namespace WindowsFormsApp2
             }
             if(activePoints.Count()==0)
                 HasSolution = false;
+            calcAngelBetweenVectors();
 
         }
+
+        
 
         public (double value, Point activePointAtMaxValue) maxValue()
         {
@@ -87,26 +91,30 @@ namespace WindowsFormsApp2
             return (min,activePointAtMinValue);
         }
 
-
-        public void printSolutionArea()
+/*
+        public string printSolutionArea()
         {
+            string s = "";
             if (!HasSolution)
             {
-                Console.WriteLine("No solution");
-                return;
+                s += ("No solution");
+                return s;
 
             }
-                
-            
-            Console.WriteLine("Active Points :");
+
+
+            s = "Active Points : ";
             foreach (Point point in activePoints)
             {
-                Console.WriteLine($"X1:{point.X1} x2:{point.X2}");
+                s += ($"X1:{point.X1} x2:{point.X2} ,");
             }
-            
-            
+            return s;
+
+
         }
-        
+
+*/
+
 
         public override string ToString()
         {
@@ -135,6 +143,24 @@ namespace WindowsFormsApp2
            
             }
             return s;
+        }
+
+        public static void calcAngelBetweenVectors()
+        {
+
+            double totalX1 = 0, totalX2 = 0;
+            foreach (Point point in activePoints)
+            {
+                totalX1 += point.X1;
+                totalX2 += point.X2;
+            }
+            double centerX = totalX1 / activePoints.Count;
+            double centerY = totalX2 / activePoints.Count;
+            foreach (Point point in activePoints)
+            {
+                point.angle = Math.Atan2((point.X2 - centerY), (point.X1 - centerY)) * (double)(180 / Math.PI);
+            }
+
         }
     }
 }

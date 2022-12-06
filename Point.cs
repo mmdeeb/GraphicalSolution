@@ -11,6 +11,7 @@ namespace WindowsFormsApp2
         public double X1;
         public double X2;
         public List<Constraint> Constraints = new List<Constraint>();
+        public double angle = 0;
 
         public Point (Constraint c1, Constraint c2)
         {
@@ -71,6 +72,8 @@ namespace WindowsFormsApp2
                 }
                 i++;
             }
+            
+
             return points;
 
         }

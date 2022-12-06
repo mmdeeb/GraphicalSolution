@@ -39,6 +39,7 @@ namespace WindowsFormsApp2
             initFieldOnChart();
             Add(new Constraint(0, 1, true, 0));
             Add(new Constraint(1, 0, true, 0));
+
         }
        
         private int rowIndex = 0;
@@ -75,9 +76,8 @@ namespace WindowsFormsApp2
                 dataGridView2.ClearSelection();
                 dataGridView2.Rows[0].Cells[0].Style.BackColor = Color.AliceBlue;
                 if (target.HasSolution) {
-                    drowActivePoint(target.activePoints);
+                    drowActivePoint(Target.activePoints);
                 }
-                //drawArea(target);
                
 
             }
@@ -98,7 +98,7 @@ namespace WindowsFormsApp2
             {
                 Name =$"Active Points",
                 IsVisibleInLegend = true,
-                ChartType = SeriesChartType.Point
+                ChartType = SeriesChartType.Area
 
             };
             series.BorderColor =Color.Red;
@@ -107,9 +107,8 @@ namespace WindowsFormsApp2
 
             this.chart1.Series.Add(series);
             chart1.Series["Field"].Points.Clear();
-            foreach(Point point in activePoints)
-               series.Points.AddXY(point.X1+0.01 ,point.X2 + 0.01);
-             
+            foreach(Point point in activePoints.OrderBy(p => (p.angle)))
+                    series.Points.AddXY(point.X1 + 0.01, point.X2 + 0.01);
 
         }
 
@@ -205,20 +204,7 @@ namespace WindowsFormsApp2
 
         }
 
-        /*void drawArea(Target target)
-        {
-            series.ChartType = SeriesChartType.Spline;
-            series.BorderWidth = 2;
-            chart1.Series["Field"].Points.Clear();
-
-            foreach(Point activePoint in target.activePoints)
-            {
-                series.Points.AddXY(activePoint.X1, activePoint.X2);
-
-            }
-            //series.ChartType = SeriesChartType.Line;
-
-        }*/
+        
         void drawConstraint(Constraint constraint)
         {
             var series = new System.Windows.Forms.DataVisualization.Charting.Series
@@ -287,7 +273,6 @@ namespace WindowsFormsApp2
             currentYMin = 0;
             setScale();
         }
-
 
     }
 }
