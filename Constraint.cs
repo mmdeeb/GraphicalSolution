@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WindowsFormsApp2
 {
-    internal class Constraint
+    public class Constraint
     {
         public double X1, X2, Z;
         public bool IsAbove;
         public List<Point> Points = new List<Point>();
-        
-        public Constraint(double X1,double X2 ,bool IsAbove ,double Z)
+
+        public Constraint(double X1, double X2, bool IsAbove, double Z)
         {
             this.X1 = X1;
             this.X2 = X2;
             this.Z = Z;
             this.IsAbove = IsAbove;
-            
+
         }
         public override string ToString()
         {
-            string typeString ;
+            string typeString;
             if (!IsAbove)
                 typeString = "<=";
             else

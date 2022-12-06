@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WindowsFormsApp2
 {
     public partial class Form1 : Form
     {
         List<Constraint> constraints = new List<Constraint>();
+        Solution solution;
         public Form1()
         {
             InitializeComponent();
-            
+
             dataGridView1.CellMouseUp += DataGridView_CellMouseUp;
             dataGridView1.ColumnCount = 1;
             dataGridView1.ColumnHeadersVisible = false;
@@ -34,13 +29,14 @@ namespace WindowsFormsApp2
             dataGridView2.ScrollBars = ScrollBars.Vertical;
             dataGridView2.ClearSelection();
             setScale();
-            
+
 
             initFieldOnChart();
             Add(new Constraint(0, 1, true, 0));
             Add(new Constraint(1, 0, true, 0));
+
         }
-       
+
         private int rowIndex = 0;
         private void DataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -53,7 +49,7 @@ namespace WindowsFormsApp2
                 contextMenuStrip1.Show(System.Windows.Forms.Cursor.Position);
             }
         }
-       
+
         double chartConstraintValue = 100;
 
         private void FindS_Click(object sender, EventArgs e)
@@ -69,16 +65,15 @@ namespace WindowsFormsApp2
                     isMaxTarget = false;
 
                 Target target = new Target(c1, c2, isMaxTarget);
-                List<Point> points = Point.getPoints(constraints);
-                target.calcSolutionArea(points, constraints);
-                dataGridView2.Rows.Add(target.ToString());
+                solution = new Solution(constraints, target, isMaxTarget);
+                dataGridView2.Rows.Add(solution.ToString());
                 dataGridView2.ClearSelection();
                 dataGridView2.Rows[0].Cells[0].Style.BackColor = Color.AliceBlue;
-                if (target.HasSolution) {
-                    drowActivePoint(target.activePoints);
+                if (solution.HasSolution)
+                {
+                    drowActivePoint(solution.SolutionAreaPoints);
                 }
-                //drawArea(target);
-               
+
 
             }
             catch (Exception)
@@ -96,20 +91,19 @@ namespace WindowsFormsApp2
         {
             var series = new System.Windows.Forms.DataVisualization.Charting.Series
             {
-                Name =$"Active Points",
+                Name = $"Active Points",
                 IsVisibleInLegend = true,
-                ChartType = SeriesChartType.Point
+                ChartType = SeriesChartType.Area
 
             };
-            series.BorderColor =Color.Red;
-            series.BorderWidth =9;
+            series.BorderColor = Color.Red;
+            series.BorderWidth = 9;
             series.MarkerSize = 10;
 
             this.chart1.Series.Add(series);
             chart1.Series["Field"].Points.Clear();
-            foreach(Point point in activePoints)
-               series.Points.AddXY(point.X1+0.01 ,point.X2 + 0.01);
-             
+            foreach (Point point in solution.getSolutionAreaPointsInAntiClockOrder())
+                series.Points.AddXY(point.X1 + 0.01, point.X2 + 0.01);
 
         }
 
@@ -158,8 +152,8 @@ namespace WindowsFormsApp2
         {
 
         }
-        
-        
+
+
         private void button1_Click(object sender, EventArgs e)
         {
             double x1, x2, z;
@@ -169,7 +163,7 @@ namespace WindowsFormsApp2
                 x1 = Convert.ToDouble(this.X1_text.Text);
                 x2 = Convert.ToDouble(this.X2_text.Text);
                 z = Convert.ToDouble(this.Z_text.Text);
-                if (ISAbove.Text.Equals("<=") )
+                if (ISAbove.Text.Equals("<="))
                     isAbove = false;
                 else
                     isAbove = true;
@@ -182,9 +176,9 @@ namespace WindowsFormsApp2
 
                 clearConstraintsTextBoxes();
             }
-           
+
         }
-       
+
         private void Add(Constraint constraint)
         {
             constraints.Add(constraint);
@@ -195,30 +189,17 @@ namespace WindowsFormsApp2
             chart1.ApplyPaletteColors();
             dataGridView1.Rows[constraints.Count - 1].Cells[0].Style.BackColor = chart1.Series[constraint.ToString()].Color;
         }
-      
+
         private void clearConstraintsTextBoxes()
         {
             X1_text.Text = "";
             X2_text.Text = "";
             Z_text.Text = "";
-           
+
 
         }
 
-        /*void drawArea(Target target)
-        {
-            series.ChartType = SeriesChartType.Spline;
-            series.BorderWidth = 2;
-            chart1.Series["Field"].Points.Clear();
 
-            foreach(Point activePoint in target.activePoints)
-            {
-                series.Points.AddXY(activePoint.X1, activePoint.X2);
-
-            }
-            //series.ChartType = SeriesChartType.Line;
-
-        }*/
         void drawConstraint(Constraint constraint)
         {
             var series = new System.Windows.Forms.DataVisualization.Charting.Series
@@ -226,14 +207,14 @@ namespace WindowsFormsApp2
                 Name = constraint.ToString(),
                 IsVisibleInLegend = true,
                 ChartType = SeriesChartType.Line
-          
+
             };
             series.BorderWidth = 2;
 
             this.chart1.Series.Add(series);
             chart1.Series["Field"].Points.Clear();
 
-            
+
             if (constraint.X1 == 0)
             {
                 double x2 = constraint.Z / constraint.X2;
@@ -255,7 +236,7 @@ namespace WindowsFormsApp2
 
             }
 
-            
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -271,9 +252,9 @@ namespace WindowsFormsApp2
         private void ZoomIn_Click(object sender, EventArgs e)
         {
             currentXMax -= 1;
-             currentXMin = 0;
-           currentYMax -= 1;
-             currentYMin = 0;
+            currentXMin = 0;
+            currentYMax -= 1;
+            currentYMin = 0;
             setScale();
 
         }
@@ -287,7 +268,6 @@ namespace WindowsFormsApp2
             currentYMin = 0;
             setScale();
         }
-
 
     }
 }
