@@ -96,8 +96,8 @@ namespace WindowsFormsApp2
                 ChartType = SeriesChartType.Area
 
             };
-            series.BorderColor = Color.Red;
-            series.BorderWidth = 9;
+            series.BorderColor = Color.Black;
+            series.BorderWidth = 2;
             series.MarkerSize = 10;
 
             this.chart1.Series.Add(series);
