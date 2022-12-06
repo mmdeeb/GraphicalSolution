@@ -61,8 +61,10 @@ namespace WindowsFormsApp2
                 bool isMaxTarget;
                 if (minmax.Text.ToLower() == "max")
                     isMaxTarget = true;
-                else
+                else if (minmax.Text.ToLower() == "min")
                     isMaxTarget = false;
+                else
+                    throw new ArgumentException("error") ;
 
                 Target target = new Target(c1, c2, isMaxTarget);
                 solution = new Solution(constraints, target, isMaxTarget);
@@ -73,6 +75,8 @@ namespace WindowsFormsApp2
                 {
                     drowActivePoint(solution.SolutionAreaPoints);
                 }
+               
+
 
 
             }
@@ -82,7 +86,9 @@ namespace WindowsFormsApp2
                 clearConstraintsTextBoxes();
                 a1f.Text = "";
                 a2f.Text = "";
+                minmax.Text = "";
             }
+            
 
 
         }

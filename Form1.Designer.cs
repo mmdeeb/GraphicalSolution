@@ -44,7 +44,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.Z_text = new System.Windows.Forms.TextBox();
-            this.Addconstraint = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.FindS = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -177,17 +177,17 @@
             this.Z_text.Size = new System.Drawing.Size(48, 20);
             this.Z_text.TabIndex = 3;
             // 
-            // Addconstraint
+            // button1
             // 
-            this.Addconstraint.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold);
-            this.Addconstraint.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.Addconstraint.Location = new System.Drawing.Point(53, 206);
-            this.Addconstraint.Name = "Addconstraint";
-            this.Addconstraint.Size = new System.Drawing.Size(183, 32);
-            this.Addconstraint.TabIndex = 5;
-            this.Addconstraint.Text = "Add Constraint";
-            this.Addconstraint.UseVisualStyleBackColor = true;
-            this.Addconstraint.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold);
+            this.button1.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.button1.Location = new System.Drawing.Point(53, 206);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(183, 32);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Add Constraint";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // dataGridView1
             // 
@@ -323,7 +323,7 @@
             this.Controls.Add(this.FindS);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.Addconstraint);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.Z_text);
             this.Controls.Add(this.X2_text);
             this.Controls.Add(this.a2f);
@@ -362,7 +362,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox Z_text;
-        private System.Windows.Forms.Button Addconstraint;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button FindS;
         private System.Windows.Forms.Label label6;
