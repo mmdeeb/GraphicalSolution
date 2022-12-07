@@ -11,6 +11,7 @@ namespace WindowsFormsApp2
         List<Point> IntersectionPoints = new List<Point> { };
         public List<Point> SolutionAreaPoints = new List<Point> { };
         public bool IsMax, HasSolution = true;
+        public Point activP;
         public Solution(List<Constraint> constraints, Target target, bool isMax)
         {
             this.constraints = constraints;
@@ -106,7 +107,7 @@ namespace WindowsFormsApp2
             double centerX = totalX1 / SolutionAreaPoints.Count;
             double centerY = totalX2 / SolutionAreaPoints.Count;
 
-            return SolutionAreaPoints.OrderBy(p => Math.Atan2((p.X2 - centerY), (p.X1 - centerY)) * (180 / Math.PI));
+            return SolutionAreaPoints.OrderBy(p => Math.Atan2((p.X2 - centerY), (p.X1 - centerX)) * (180 / Math.PI));
 
         }
 
@@ -117,6 +118,7 @@ namespace WindowsFormsApp2
             {
                 if (IsMax)
                 {
+                    activP = target.maxValue(SolutionAreaPoints).activePointAtMaxValue;
                     s = $"best value is {target.maxValue(SolutionAreaPoints).value} " +
                                       $"at point : ({target.maxValue(SolutionAreaPoints).activePointAtMaxValue.X1}" +
                                       $",{target.maxValue(SolutionAreaPoints).activePointAtMaxValue.X2})";
@@ -124,6 +126,7 @@ namespace WindowsFormsApp2
 
                 else
                 {
+                    activP = target.minValue(SolutionAreaPoints).activePointAtMinValue;
                     s = $"best value is {target.minValue(SolutionAreaPoints).value} " +
                                       $"at point : ({target.minValue(SolutionAreaPoints).activePointAtMinValue.X1}" +
                                       $",{target.minValue(SolutionAreaPoints).activePointAtMinValue.X2})";

@@ -50,7 +50,7 @@ namespace WindowsFormsApp2
             }
         }
 
-        double chartConstraintValue = 100;
+        double chartConstraintValue = 1000;
 
         private void FindS_Click(object sender, EventArgs e)
         {
@@ -73,7 +73,9 @@ namespace WindowsFormsApp2
                 dataGridView2.Rows[0].Cells[0].Style.BackColor = Color.AliceBlue;
                 if (solution.HasSolution)
                 {
-                    drowActivePoint(solution.SolutionAreaPoints);
+
+                    drowActivePoin(solution.activP);
+                    drowArea(solution.SolutionAreaPoints);
                 }
                
 
@@ -93,7 +95,26 @@ namespace WindowsFormsApp2
 
         }
 
-        private void drowActivePoint(List<Point> activePoints)
+        private void drowActivePoin(Point activePoint)
+        {
+            var series = new System.Windows.Forms.DataVisualization.Charting.Series
+            {
+                Name = $"Solution Area",
+                IsVisibleInLegend = true,
+                ChartType = SeriesChartType.Point
+
+            };
+            series.BorderColor = Color.Black;
+            series.BorderWidth = 2;
+            series.MarkerSize = 10;
+
+            this.chart1.Series.Add(series);
+            chart1.Series["Field"].Points.Clear();
+          
+                series.Points.AddXY(activePoint.X1 + 0.01, activePoint.X2 + 0.01);
+
+        }
+        private void drowArea(List<Point> activePoints)
         {
             var series = new System.Windows.Forms.DataVisualization.Charting.Series
             {
@@ -112,7 +133,6 @@ namespace WindowsFormsApp2
                 series.Points.AddXY(point.X1 + 0.01, point.X2 + 0.01);
 
         }
-
         void initFieldOnChart()
         {
             var fieldSeries = new System.Windows.Forms.DataVisualization.Charting.Series
