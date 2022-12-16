@@ -64,7 +64,7 @@ namespace WindowsFormsApp2
                 else if (minmax.Text.ToLower() == "min")
                     isMaxTarget = false;
                 else
-                    throw new ArgumentException("error") ;
+                    throw new ArgumentException("error");
 
                 Target target = new Target(c1, c2, isMaxTarget);
                 solution = new Solution(constraints, target, isMaxTarget);
@@ -77,7 +77,7 @@ namespace WindowsFormsApp2
                     drowActivePoin(solution.activP);
                     drowArea(solution.SolutionAreaPoints);
                 }
-               
+
 
 
 
@@ -90,7 +90,7 @@ namespace WindowsFormsApp2
                 a2f.Text = "";
                 minmax.Text = "";
             }
-            
+
 
 
         }
@@ -99,7 +99,7 @@ namespace WindowsFormsApp2
         {
             var series = new System.Windows.Forms.DataVisualization.Charting.Series
             {
-                Name = $"Solution Area",
+                Name = $"Solution Point",
                 IsVisibleInLegend = true,
                 ChartType = SeriesChartType.Point
 
@@ -110,15 +110,15 @@ namespace WindowsFormsApp2
 
             this.chart1.Series.Add(series);
             chart1.Series["Field"].Points.Clear();
-          
-                series.Points.AddXY(activePoint.X1 + 0.01, activePoint.X2 + 0.01);
+
+            series.Points.AddXY(activePoint.X1 + 0.01, activePoint.X2 + 0.01);
 
         }
         private void drowArea(List<Point> activePoints)
         {
             var series = new System.Windows.Forms.DataVisualization.Charting.Series
             {
-                Name = $"Active Points",
+                Name = $"Solution Area",
                 IsVisibleInLegend = true,
                 ChartType = SeriesChartType.Area
 
@@ -158,25 +158,6 @@ namespace WindowsFormsApp2
                 chart1.ChartAreas[0].AxisY.Maximum = currentYMax;
                 chart1.ChartAreas[0].AxisY.Minimum = currentYMin;
             }
-        }
-        private void chart1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
 
 
@@ -265,10 +246,8 @@ namespace WindowsFormsApp2
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
+
 
         private void label6_Click(object sender, EventArgs e)
         {
@@ -295,14 +274,6 @@ namespace WindowsFormsApp2
             setScale();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
