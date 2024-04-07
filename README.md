@@ -47,4 +47,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) f
 
 ---
 
-This project is crafted with care by [@mmdeeb](https://github.com/mmdeeb)
+This project is crafted with care by [Mohammed Mohammed Deeb](https://github.com/mmdeeb)
